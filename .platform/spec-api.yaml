@@ -3,7 +3,7 @@ kind: API
 metadata:
   name: spec-teste
   title: spec-teste
-  publishedAt: "2025-01-29 18:19:46"
+  publishedAt: "2025-01-29 18:51:21"
   description: Consulte CEPs de todo o Brasil.
   tags: []
 spec:
@@ -33,8 +33,35 @@ spec:
           externalDocs:
             description: Find out more
             url: http://swagger.io
+    x-kong-rate-limiting:
+        name: rate-limiting
+        enabled: true
+        config:
+            error_code: 429
+            error_message: API rate limit exceeded
+            sync_rate: -1
+            redis_timeout: 2000
+            redis_database: 0
+            redis_ssl_verify: false
+            redis_ssl: false
+            redis_port: 6379
+            hide_client_headers: false
+            fault_tolerant: true
+            policy: local
+            limit_by: consumer
+            redis:
+                database: 0
+                ssl: false
+                ssl_verify: false
+                password: null
+                port: 6379
+                server_name: null
+                timeout: 2000
+                host: null
+                username: null
+            minute: 5
     paths:
-        '/ws/{zip-code}/json':
+        /ws/{zip-code}/json:
             get:
                 tags:
                     - Address
